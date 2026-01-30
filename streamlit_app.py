@@ -1,4 +1,5 @@
 # streamlit_app.py
+import warnings
 import streamlit as st
 import pandas as pd
 import plotly.express as px
@@ -9,6 +10,9 @@ import requests
 import json
 from sqlalchemy import func, or_
 from sqlalchemy.orm import joinedload
+
+# Suppress Plotly config deprecation (Streamlit passes kwargs that are deprecated)
+warnings.filterwarnings("ignore", message=".*keyword arguments have been deprecated.*config.*", category=UserWarning)
 
 # Page config
 st.set_page_config(
@@ -177,7 +181,7 @@ if page == "🏠 Dashboard":
             if status_counts:
                 status_df = pd.DataFrame(status_counts, columns=["Status", "Count"])
                 fig = px.pie(status_df, values="Count", names="Status", title="Lead Validation Status")
-                st.plotly_chart(fig, width='stretch')
+                st.plotly_chart(fig, use_container_width=True)
             else:
                 st.info("No leads data available")
         
@@ -647,7 +651,7 @@ elif page == "📤 Email Performance":
                 sends_df = pd.DataFrame(daily_sends, columns=["Date", "Count"])
                 sends_df["Date"] = pd.to_datetime(sends_df["Date"])
                 fig = px.line(sends_df, x="Date", y="Count", title="Daily Email Sends")
-                st.plotly_chart(fig, width='stretch')
+                st.plotly_chart(fig, use_container_width=True)
             else:
                 st.info("No send data available")
         
@@ -667,7 +671,7 @@ elif page == "📤 Email Performance":
                 bounces_df["Date"] = pd.to_datetime(bounces_df["Date"])
                 bounces_df["Bounce Rate"] = (bounces_df["Bounces"] / bounces_df["Sends"] * 100).fillna(0)
                 fig = px.line(bounces_df, x="Date", y="Bounce Rate", title="Daily Bounce Rate %")
-                st.plotly_chart(fig, width='stretch')
+                st.plotly_chart(fig, use_container_width=True)
             else:
                 st.info("No bounce data available")
         
@@ -842,7 +846,7 @@ elif page == "🛡️ Deliverability":
                 name="Hourly Limit (×8)"
             ))
             fig.update_layout(title="Rate Limit Evolution", xaxis_title="Date", yaxis_title="Emails")
-            st.plotly_chart(fig, width='stretch')
+            st.plotly_chart(fig, use_container_width=True)
         else:
             st.info("No rate limit metrics available")
         
