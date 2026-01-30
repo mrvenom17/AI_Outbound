@@ -1,0 +1,741 @@
+name,email,company,linkedin_url,role,domain,score,context,status,icp,created_at
+Arvind Jain,arvind@glean.com,Glean Technologies,,Founder & CEO,glean.com,0.9,valid,GLean,2025-12-14T08:50:59.790150+00:00
+Tony Gentilcore,tony@glean.com,Glean Technologies,,"Co-founder, Engineering",glean.com,0.9,valid,GLean,2025-12-14T08:51:26.545987+00:00
+Bikash Barai,bikash.barai@firecompass.com,FireCompass,,Founder & CEO,firecompass.com,0.9,valid,FireCompass,2025-12-14T09:08:30.211206+00:00
+Priyanka Aash,priyanka@firecompass.com,FireCompass,,Co-founder & VP,firecompass.com,0.9,valid,FireCompass,2025-12-14T09:08:33.786995+00:00
+Sarthak Jain,sarthak@nanonets.com,Nanonets,,"CEO, Co-founder",nanonets.com,0.9,valid,Nanonets,2025-12-14T09:11:06.171027+00:00
+Prathamesh Juvatkar,prathamesh@nanonets.com,Nanonets,,"Co-Founder, CTO",nanonets.com,0.9,valid,Nanonets,2025-12-14T09:11:10.079905+00:00
+Michael Cattermole,michael@nanonets.com,Nanonets,,Director of Sales,nanonets.com,0.9,valid,Nanonets,2025-12-14T09:11:14.379628+00:00
+Pavitar Singh,pavitar@unifyapps.com,UnifyApps,,Co-founder and Co-CEO,unifyapps.com,0.9,valid,UnifyApps,2025-12-14T09:11:40.986651+00:00
+Ragy Thomas,ragy@unifyapps.com,UnifyApps,,Co-CEO & Chairman,unifyapps.com,0.9,valid,UnifyApps,2025-12-14T09:11:44.877097+00:00
+Haitham Elkhatib,haitham@unifyapps.com,UnifyApps,,Co-founder & CRO,unifyapps.com,0.9,valid,UnifyApps,2025-12-14T09:11:48.544633+00:00
+André Zayarni,a.zayarni@qdrant.tech,Qdrant,,CEO & Co-Founder,qdrant.tech,0.9,valid,Qdrant,2025-12-14T09:12:50.822012+00:00
+Andrey Vasnetsov,andrey@qdrant.tech,Qdrant,,CTO & Co-Founder,qdrant.tech,0.9,valid,Qdrant,2025-12-14T09:12:54.887843+00:00
+Manuel Meyer,manuel.meyer@qdrant.tech,Qdrant,,Growth,qdrant.tech,0.9,valid,Qdrant,2025-12-14T09:13:04.544450+00:00
+Edo Liberty,edo@pinecone.io,Pinecone,,"Founder, Chief Scientist",pinecone.io,0.9,valid,Pinecone,2025-12-14T09:13:20.070710+00:00
+Ash Ashutosh,ash@pinecone.io,Pinecone,,CEO,pinecone.io,0.9,valid,Pinecone,2025-12-14T09:13:23.716297+00:00
+Lauren Nemeth,lauren@pinecone.io,Pinecone,,COO,pinecone.io,0.9,valid,Pinecone,2025-12-14T09:13:27.482245+00:00
+Dan Guido,dan@trailofbits.com,Trail of Bits,,Co-Founder & CEO,trailofbits.com,0.9,valid,"Remote-first AI or cybersecurity startups (Seed–Series B, 10–100 employees) with engineering-led hiring and public GitHub activity.",2025-12-19T11:11:55.311160+00:00
+Alex Sotirov,alex@trailofbits.com,Trail of Bits,,Co-CEO,trailofbits.com,0.9,valid,"Remote-first AI or cybersecurity startups (Seed–Series B, 10–100 employees) with engineering-led hiring and public GitHub activity.",2025-12-19T11:11:59.476234+00:00
+John Mudry,john@trailofbits.com,Trail of Bits,,Global Head of GTM,trailofbits.com,0.9,valid,"Remote-first AI or cybersecurity startups (Seed–Series B, 10–100 employees) with engineering-led hiring and public GitHub activity.",2025-12-19T11:12:03.605355+00:00
+Dan Lorenc,dan@chainguard.dev,Chainguard,https://www.linkedin.com/in/dlorenc,Founder & CEO,chainguard.dev,0.9,valid,"Remote-first AI or cybersecurity startups (Seed–Series B, 10–100 employees) with engineering-led hiring and public GitHub activity.",2025-12-19T11:12:13.641351+00:00
+Kim Lewandowski,kim@chainguard.dev,Chainguard,https://www.linkedin.com/in/klewandowski,Co-founder,chainguard.dev,0.9,valid,"Remote-first AI or cybersecurity startups (Seed–Series B, 10–100 employees) with engineering-led hiring and public GitHub activity.",2025-12-19T11:12:18.044738+00:00
+Matt Moore,matt@chainguard.dev,Chainguard,https://www.linkedin.com/in/matt-moore-8b0b4a,Co-founder,chainguard.dev,0.9,valid,"Remote-first AI or cybersecurity startups (Seed–Series B, 10–100 employees) with engineering-led hiring and public GitHub activity.",2025-12-19T11:12:20.444452+00:00
+Avery Pennarun,avery@tailscale.com,Tailscale,,Co-founder and CEO,tailscale.com,0.9,valid,"Remote-first AI or cybersecurity startups (Seed–Series B, 10–100 employees) with engineering-led hiring and public GitHub activity.",2025-12-19T11:12:26.598116+00:00
+David Carney,david@tailscale.com,Tailscale,,Co-Founder and CSO,tailscale.com,0.9,valid,"Remote-first AI or cybersecurity startups (Seed–Series B, 10–100 employees) with engineering-led hiring and public GitHub activity.",2025-12-19T11:12:30.074345+00:00
+Alex Miller,alex@hiro.so,Hiro Systems,https://www.linkedin.com/in/alex-miller-1b0b6a3/,CEO,hiro.so,0.9,valid,"Remote-first AI or cybersecurity startups (Seed–Series B, 10–100 employees) with engineering-led hiring and public GitHub activity.",2025-12-19T11:12:41.481512+00:00
+Muneeb Ali,muneeb@hiro.so,Hiro Systems,https://www.linkedin.com/in/muneebali/,Co-founder / Executive Chair,hiro.so,0.9,valid,"Remote-first AI or cybersecurity startups (Seed–Series B, 10–100 employees) with engineering-led hiring and public GitHub activity.",2025-12-19T11:12:44.260538+00:00
+Yotam Segev,yotam@cyera.com,Cyera,https://www.linkedin.com/in/yotamsegev/,"Co-founder, CEO",cyera.com,0.9,valid,"Remote-first AI or cybersecurity startups (Seed–Series B, 10–100 employees) with engineering-led hiring and public GitHub activity.",2025-12-19T11:15:19.672279+00:00
+Tamar Bar-Ilan,tamar@cyera.com,Cyera,https://www.linkedin.com/in/tamarbarilan/,"Co-founder, CTO",cyera.com,0.9,valid,"Remote-first AI or cybersecurity startups (Seed–Series B, 10–100 employees) with engineering-led hiring and public GitHub activity.",2025-12-19T11:15:23.360958+00:00
+Steve Rog,steve@cyera.com,Cyera,https://www.linkedin.com/in/steverog/,Chief Revenue Officer,cyera.com,0.9,valid,"Remote-first AI or cybersecurity startups (Seed–Series B, 10–100 employees) with engineering-led hiring and public GitHub activity.",2025-12-19T11:15:25.946663+00:00
+Tarun Thakur,tarun@veza.com,Veza,,"Founder, CEO",veza.com,0.9,valid,"Remote-first AI or cybersecurity startups (Seed–Series B, 10–100 employees) with engineering-led hiring and public GitHub activity.",2025-12-19T11:16:45.530374+00:00
+Maohua Lu,maohua.lu@veza.com,Veza,,CTO & Co-Founder,veza.com,0.9,valid,"Remote-first AI or cybersecurity startups (Seed–Series B, 10–100 employees) with engineering-led hiring and public GitHub activity.",2025-12-19T11:16:55.122003+00:00
+Robert Whitcher,robert.whitcher@veza.com,Veza,,Chief Architect & Co-Founder,veza.com,0.9,valid,"Remote-first AI or cybersecurity startups (Seed–Series B, 10–100 employees) with engineering-led hiring and public GitHub activity.",2025-12-19T11:17:04.459569+00:00
+Kyle Hanslovan,kyle@huntress.com,Huntress,,CEO & Co-Founder,huntress.com,1.0,valid,"Security Engineering / Detection Engineering Teams
+
+Org size: 50-200+ engineers
+Industry: SaaS, Cloud Infrastructure, FinTech, Cybersecurity Vendors, Large Enterprises
+Maturity: Medium–High security maturity
+
+Who exactly:
+
+Detection Engineers
+
+Security Platform Engineers
+
+Vulnerability Intelligence Engineers
+
+AppSec Infrastructure Teams
+
+Internal Security Tooling Owners",2026-01-19T16:01:30.818689+00:00
+John Ferrell,john@huntress.com,Huntress,,Co-Founder,huntress.com,1.0,valid,"Security Engineering / Detection Engineering Teams
+
+Org size: 50-200+ engineers
+Industry: SaaS, Cloud Infrastructure, FinTech, Cybersecurity Vendors, Large Enterprises
+Maturity: Medium–High security maturity
+
+Who exactly:
+
+Detection Engineers
+
+Security Platform Engineers
+
+Vulnerability Intelligence Engineers
+
+AppSec Infrastructure Teams
+
+Internal Security Tooling Owners",2026-01-19T16:01:39.210903+00:00
+Chris Bisnett,chris@huntress.com,Huntress,,CTO & Co-Founder,huntress.com,1.0,valid,"Security Engineering / Detection Engineering Teams
+
+Org size: 50-200+ engineers
+Industry: SaaS, Cloud Infrastructure, FinTech, Cybersecurity Vendors, Large Enterprises
+Maturity: Medium–High security maturity
+
+Who exactly:
+
+Detection Engineers
+
+Security Platform Engineers
+
+Vulnerability Intelligence Engineers
+
+AppSec Infrastructure Teams
+
+Internal Security Tooling Owners",2026-01-19T16:01:42.922770+00:00
+Ryan Disraeli,ryan@inspectiv.com,Inspectiv,,CEO,inspectiv.com,1.0,valid,"Security Engineering / Detection Engineering Teams
+
+Org size: 50-200+ engineers
+Industry: SaaS, Cloud Infrastructure, FinTech, Cybersecurity Vendors, Large Enterprises
+Maturity: Medium–High security maturity
+
+Who exactly:
+
+Detection Engineers
+
+Security Platform Engineers
+
+Vulnerability Intelligence Engineers
+
+AppSec Infrastructure Teams
+
+Internal Security Tooling Owners",2026-01-19T16:03:05.798112+00:00
+Joseph Melika,joseph@inspectiv.com,Inspectiv,,Executive Chairman,inspectiv.com,0.9,valid,"Security Engineering / Detection Engineering Teams
+
+Org size: 50-200+ engineers
+Industry: SaaS, Cloud Infrastructure, FinTech, Cybersecurity Vendors, Large Enterprises
+Maturity: Medium–High security maturity
+
+Who exactly:
+
+Detection Engineers
+
+Security Platform Engineers
+
+Vulnerability Intelligence Engineers
+
+AppSec Infrastructure Teams
+
+Internal Security Tooling Owners",2026-01-19T16:03:09.897553+00:00
+Lauren Gimmillaro,lauren@inspectiv.com,Inspectiv,,VP of Sales & Partnerships,inspectiv.com,1.0,valid,"Security Engineering / Detection Engineering Teams
+
+Org size: 50-200+ engineers
+Industry: SaaS, Cloud Infrastructure, FinTech, Cybersecurity Vendors, Large Enterprises
+Maturity: Medium–High security maturity
+
+Who exactly:
+
+Detection Engineers
+
+Security Platform Engineers
+
+Vulnerability Intelligence Engineers
+
+AppSec Infrastructure Teams
+
+Internal Security Tooling Owners",2026-01-19T16:03:12.948499+00:00
+Udi Mokady,udi@cyberark.com,CyberArk,,Founder and Executive Chairman,cyberark.com,0.9,valid,"Security Engineering / Detection Engineering Teams
+
+Org size: 50-200+ engineers
+Industry: SaaS, Cloud Infrastructure, FinTech, Cybersecurity Vendors, Large Enterprises
+Maturity: Medium–High security maturity
+
+Who exactly:
+
+Detection Engineers
+
+Security Platform Engineers
+
+Vulnerability Intelligence Engineers
+
+AppSec Infrastructure Teams
+
+Internal Security Tooling Owners",2026-01-19T16:04:32.550415+00:00
+Matt Cohen,matt@cyberark.com,CyberArk,,Chief Executive Officer,cyberark.com,0.9,valid,"Security Engineering / Detection Engineering Teams
+
+Org size: 50-200+ engineers
+Industry: SaaS, Cloud Infrastructure, FinTech, Cybersecurity Vendors, Large Enterprises
+Maturity: Medium–High security maturity
+
+Who exactly:
+
+Detection Engineers
+
+Security Platform Engineers
+
+Vulnerability Intelligence Engineers
+
+AppSec Infrastructure Teams
+
+Internal Security Tooling Owners",2026-01-19T16:04:36.611602+00:00
+Christopher Kelly,christopher@cyberark.com,CyberArk,,Chief Revenue Officer (CRO),cyberark.com,0.9,valid,"Security Engineering / Detection Engineering Teams
+
+Org size: 50-200+ engineers
+Industry: SaaS, Cloud Infrastructure, FinTech, Cybersecurity Vendors, Large Enterprises
+Maturity: Medium–High security maturity
+
+Who exactly:
+
+Detection Engineers
+
+Security Platform Engineers
+
+Vulnerability Intelligence Engineers
+
+AppSec Infrastructure Teams
+
+Internal Security Tooling Owners",2026-01-19T16:04:39.554157+00:00
+Jeff Heuer,jeff@kennasecurity.com,Kenna Security,,Co-Founder,kennasecurity.com,0.9,valid,"Security Engineering / Detection Engineering Teams
+
+Org size: 50-200+ engineers
+Industry: SaaS, Cloud Infrastructure, FinTech, Cybersecurity Vendors, Large Enterprises
+Maturity: Medium–High security maturity
+
+Who exactly:
+
+Detection Engineers
+
+Security Platform Engineers
+
+Vulnerability Intelligence Engineers
+
+AppSec Infrastructure Teams
+
+Internal Security Tooling Owners",2026-01-19T16:06:32.976549+00:00
+Ed Bellis,ed@kennasecurity.com,Kenna Security,,CTO and Co-Founder,kennasecurity.com,0.9,valid,"Security Engineering / Detection Engineering Teams
+
+Org size: 50-200+ engineers
+Industry: SaaS, Cloud Infrastructure, FinTech, Cybersecurity Vendors, Large Enterprises
+Maturity: Medium–High security maturity
+
+Who exactly:
+
+Detection Engineers
+
+Security Platform Engineers
+
+Vulnerability Intelligence Engineers
+
+AppSec Infrastructure Teams
+
+Internal Security Tooling Owners",2026-01-19T16:06:37.299419+00:00
+Karim Toubba,karim@kennasecurity.com,Kenna Security,,CEO,kennasecurity.com,0.9,valid,"Security Engineering / Detection Engineering Teams
+
+Org size: 50-200+ engineers
+Industry: SaaS, Cloud Infrastructure, FinTech, Cybersecurity Vendors, Large Enterprises
+Maturity: Medium–High security maturity
+
+Who exactly:
+
+Detection Engineers
+
+Security Platform Engineers
+
+Vulnerability Intelligence Engineers
+
+AppSec Infrastructure Teams
+
+Internal Security Tooling Owners",2026-01-19T16:06:41.361910+00:00
+Udi Mokady,udi@cyberark.com,CyberArk,,Founder and Executive Chairman,cyberark.com,0.9,valid,"Security Engineering / Detection Engineering Teams
+
+Org size: 50-200+ engineers
+Industry: SaaS, Cloud Infrastructure, FinTech, Cybersecurity Vendors, Large Enterprises
+Maturity: Medium–High security maturity
+
+Who exactly:
+
+Detection Engineers
+
+Security Platform Engineers
+
+Vulnerability Intelligence Engineers
+
+AppSec Infrastructure Teams
+
+Internal Security Tooling Owners",2026-01-19T16:15:48.077503+00:00
+Matt Cohen,matt@cyberark.com,CyberArk,,Chief Executive Officer,cyberark.com,0.9,valid,"Security Engineering / Detection Engineering Teams
+
+Org size: 50-200+ engineers
+Industry: SaaS, Cloud Infrastructure, FinTech, Cybersecurity Vendors, Large Enterprises
+Maturity: Medium–High security maturity
+
+Who exactly:
+
+Detection Engineers
+
+Security Platform Engineers
+
+Vulnerability Intelligence Engineers
+
+AppSec Infrastructure Teams
+
+Internal Security Tooling Owners",2026-01-19T16:15:50.711431+00:00
+Christopher Kelly,christopher@cyberark.com,CyberArk,,Chief Revenue Officer (CRO),cyberark.com,0.9,valid,"Security Engineering / Detection Engineering Teams
+
+Org size: 50-200+ engineers
+Industry: SaaS, Cloud Infrastructure, FinTech, Cybersecurity Vendors, Large Enterprises
+Maturity: Medium–High security maturity
+
+Who exactly:
+
+Detection Engineers
+
+Security Platform Engineers
+
+Vulnerability Intelligence Engineers
+
+AppSec Infrastructure Teams
+
+Internal Security Tooling Owners",2026-01-19T16:15:53.432987+00:00
+Nikesh Arora,nikesh@paloaltonetworks.com,Palo Alto Networks,,Chairman and Chief Executive Officer,paloaltonetworks.com,0.9,valid,"Security Engineering / Detection Engineering Teams
+
+Org size: 50-200+ engineers
+Industry: SaaS, Cloud Infrastructure, FinTech, Cybersecurity Vendors, Large Enterprises
+Maturity: Medium–High security maturity
+
+Who exactly:
+
+Detection Engineers
+
+Security Platform Engineers
+
+Vulnerability Intelligence Engineers
+
+AppSec Infrastructure Teams
+
+Internal Security Tooling Owners",2026-01-20T12:26:53.706547+00:00
+BJ Jenkins,bj@paloaltonetworks.com,Palo Alto Networks,,President,paloaltonetworks.com,0.9,valid,"Security Engineering / Detection Engineering Teams
+
+Org size: 50-200+ engineers
+Industry: SaaS, Cloud Infrastructure, FinTech, Cybersecurity Vendors, Large Enterprises
+Maturity: Medium–High security maturity
+
+Who exactly:
+
+Detection Engineers
+
+Security Platform Engineers
+
+Vulnerability Intelligence Engineers
+
+AppSec Infrastructure Teams
+
+Internal Security Tooling Owners",2026-01-20T12:26:58.068042+00:00
+Karim Temsamani,karim@paloaltonetworks.com,Palo Alto Networks,,"President, Next Generation Security",paloaltonetworks.com,0.9,valid,"Security Engineering / Detection Engineering Teams
+
+Org size: 50-200+ engineers
+Industry: SaaS, Cloud Infrastructure, FinTech, Cybersecurity Vendors, Large Enterprises
+Maturity: Medium–High security maturity
+
+Who exactly:
+
+Detection Engineers
+
+Security Platform Engineers
+
+Vulnerability Intelligence Engineers
+
+AppSec Infrastructure Teams
+
+Internal Security Tooling Owners",2026-01-20T12:27:02.240458+00:00
+George Kurtz,george@crowdstrike.com,CrowdStrike,,CEO & Founder,crowdstrike.com,0.9,valid,"Security Engineering / Detection Engineering Teams
+
+Org size: 50-200+ engineers
+Industry: SaaS, Cloud Infrastructure, FinTech, Cybersecurity Vendors, Large Enterprises
+Maturity: Medium–High security maturity
+
+Who exactly:
+
+Detection Engineers
+
+Security Platform Engineers
+
+Vulnerability Intelligence Engineers
+
+AppSec Infrastructure Teams
+
+Internal Security Tooling Owners",2026-01-20T12:27:10.427698+00:00
+Michael Sentonas,michael@crowdstrike.com,CrowdStrike,,President,crowdstrike.com,0.9,valid,"Security Engineering / Detection Engineering Teams
+
+Org size: 50-200+ engineers
+Industry: SaaS, Cloud Infrastructure, FinTech, Cybersecurity Vendors, Large Enterprises
+Maturity: Medium–High security maturity
+
+Who exactly:
+
+Detection Engineers
+
+Security Platform Engineers
+
+Vulnerability Intelligence Engineers
+
+AppSec Infrastructure Teams
+
+Internal Security Tooling Owners",2026-01-20T12:27:15.116445+00:00
+Alex Ionescu,alex@crowdstrike.com,CrowdStrike,,Chief Technology Innovation Officer,crowdstrike.com,0.9,valid,"Security Engineering / Detection Engineering Teams
+
+Org size: 50-200+ engineers
+Industry: SaaS, Cloud Infrastructure, FinTech, Cybersecurity Vendors, Large Enterprises
+Maturity: Medium–High security maturity
+
+Who exactly:
+
+Detection Engineers
+
+Security Platform Engineers
+
+Vulnerability Intelligence Engineers
+
+AppSec Infrastructure Teams
+
+Internal Security Tooling Owners",2026-01-20T12:27:18.927257+00:00
+Corey Thomas,corey.thomas@rapid7.com,Rapid7,,Chairman and CEO,rapid7.com,0.9,valid,"Security Engineering / Detection Engineering Teams
+
+Org size: 50-200+ engineers
+Industry: SaaS, Cloud Infrastructure, FinTech, Cybersecurity Vendors, Large Enterprises
+Maturity: Medium–High security maturity
+
+Who exactly:
+
+Detection Engineers
+
+Security Platform Engineers
+
+Vulnerability Intelligence Engineers
+
+AppSec Infrastructure Teams
+
+Internal Security Tooling Owners",2026-01-20T12:27:31.914409+00:00
+Allan Peters,allan_peters@rapid7.com,Rapid7,,Chief Commercial Officer,rapid7.com,1.0,valid,"Security Engineering / Detection Engineering Teams
+
+Org size: 50-200+ engineers
+Industry: SaaS, Cloud Infrastructure, FinTech, Cybersecurity Vendors, Large Enterprises
+Maturity: Medium–High security maturity
+
+Who exactly:
+
+Detection Engineers
+
+Security Platform Engineers
+
+Vulnerability Intelligence Engineers
+
+AppSec Infrastructure Teams
+
+Internal Security Tooling Owners",2026-01-20T12:27:43.750342+00:00
+Cynthia Stanton,cynthia.stanton@rapid7.com,Rapid7,,Chief Marketing Officer,rapid7.com,0.9,valid,"Security Engineering / Detection Engineering Teams
+
+Org size: 50-200+ engineers
+Industry: SaaS, Cloud Infrastructure, FinTech, Cybersecurity Vendors, Large Enterprises
+Maturity: Medium–High security maturity
+
+Who exactly:
+
+Detection Engineers
+
+Security Platform Engineers
+
+Vulnerability Intelligence Engineers
+
+AppSec Infrastructure Teams
+
+Internal Security Tooling Owners",2026-01-20T12:27:52.770206+00:00
+Jay Chaudhry,jay@zscaler.com,Zscaler,,Founder and CEO,zscaler.com,1.0,valid,"Security Engineering / Detection Engineering Teams
+
+Org size: 50-200+ engineers
+Industry: SaaS, Cloud Infrastructure, FinTech, Cybersecurity Vendors, Large Enterprises
+Maturity: Medium–High security maturity
+
+Who exactly:
+
+Detection Engineers
+
+Security Platform Engineers
+
+Vulnerability Intelligence Engineers
+
+AppSec Infrastructure Teams
+
+Internal Security Tooling Owners",2026-01-20T12:28:03.703216+00:00
+Dr. Swamy Kocherlakota,dr@zscaler.com,Zscaler,,Executive Vice President of Agentic AI Security Engineering,zscaler.com,0.9,valid,"Security Engineering / Detection Engineering Teams
+
+Org size: 50-200+ engineers
+Industry: SaaS, Cloud Infrastructure, FinTech, Cybersecurity Vendors, Large Enterprises
+Maturity: Medium–High security maturity
+
+Who exactly:
+
+Detection Engineers
+
+Security Platform Engineers
+
+Vulnerability Intelligence Engineers
+
+AppSec Infrastructure Teams
+
+Internal Security Tooling Owners",2026-01-20T12:28:06.938548+00:00
+Peter McKay,peter@snyk.io,Snyk,,CEO,snyk.io,1.0,valid,"Security Engineering / Detection Engineering Teams
+
+Org size: 50-200+ engineers
+Industry: SaaS, Cloud Infrastructure, FinTech, Cybersecurity Vendors, Large Enterprises
+Maturity: Medium–High security maturity
+
+Who exactly:
+
+Detection Engineers
+
+Security Platform Engineers
+
+Vulnerability Intelligence Engineers
+
+AppSec Infrastructure Teams
+
+Internal Security Tooling Owners",2026-01-20T12:28:13.995491+00:00
+Mark McClain,mark@sailpoint.com,SailPoint,,CEO & Founder,sailpoint.com,0.9,valid,"Security Engineering / Detection Engineering Teams
+
+Org size: 50-200+ engineers
+Industry: SaaS, Cloud Infrastructure, FinTech, Cybersecurity Vendors, Large Enterprises
+Maturity: Medium–High security maturity
+
+Who exactly:
+
+Detection Engineers
+
+Security Platform Engineers
+
+Vulnerability Intelligence Engineers
+
+AppSec Infrastructure Teams
+
+Internal Security Tooling Owners",2026-01-20T12:29:07.120997+00:00
+Matt Mills,matt@sailpoint.com,SailPoint,,President,sailpoint.com,0.9,valid,"Security Engineering / Detection Engineering Teams
+
+Org size: 50-200+ engineers
+Industry: SaaS, Cloud Infrastructure, FinTech, Cybersecurity Vendors, Large Enterprises
+Maturity: Medium–High security maturity
+
+Who exactly:
+
+Detection Engineers
+
+Security Platform Engineers
+
+Vulnerability Intelligence Engineers
+
+AppSec Infrastructure Teams
+
+Internal Security Tooling Owners",2026-01-20T12:29:11.391882+00:00
+Gary Nafus,gary@sailpoint.com,SailPoint,,Chief Commercial Officer,sailpoint.com,0.9,valid,"Security Engineering / Detection Engineering Teams
+
+Org size: 50-200+ engineers
+Industry: SaaS, Cloud Infrastructure, FinTech, Cybersecurity Vendors, Large Enterprises
+Maturity: Medium–High security maturity
+
+Who exactly:
+
+Detection Engineers
+
+Security Platform Engineers
+
+Vulnerability Intelligence Engineers
+
+AppSec Infrastructure Teams
+
+Internal Security Tooling Owners",2026-01-20T12:29:15.520390+00:00
+Matthew Prince,matthew@cloudflare.com,Cloudflare,,CEO and Co-founder,cloudflare.com,0.9,valid,"Security Engineering / Detection Engineering Teams
+
+Org size: 50-100+ engineers
+Industry: SaaS, Cloud Infrastructure, FinTech, Cybersecurity Vendors, Large Enterprises
+Maturity: Medium–High security maturity
+
+Who exactly:
+
+Detection Engineers
+
+Security Platform Engineers
+
+Vulnerability Intelligence Engineers
+
+AppSec Infrastructure Teams
+
+Internal Security Tooling Owners",2026-01-29T17:41:45.083001+00:00
+Michelle Zatlyn,michelle@cloudflare.com,Cloudflare,,President and COO,cloudflare.com,0.9,valid,"Security Engineering / Detection Engineering Teams
+
+Org size: 50-100+ engineers
+Industry: SaaS, Cloud Infrastructure, FinTech, Cybersecurity Vendors, Large Enterprises
+Maturity: Medium–High security maturity
+
+Who exactly:
+
+Detection Engineers
+
+Security Platform Engineers
+
+Vulnerability Intelligence Engineers
+
+AppSec Infrastructure Teams
+
+Internal Security Tooling Owners",2026-01-29T17:41:49.154583+00:00
+Grant Bourzikas,grant@cloudflare.com,Cloudflare,,President of Revenue,cloudflare.com,0.9,valid,"Security Engineering / Detection Engineering Teams
+
+Org size: 50-100+ engineers
+Industry: SaaS, Cloud Infrastructure, FinTech, Cybersecurity Vendors, Large Enterprises
+Maturity: Medium–High security maturity
+
+Who exactly:
+
+Detection Engineers
+
+Security Platform Engineers
+
+Vulnerability Intelligence Engineers
+
+AppSec Infrastructure Teams
+
+Internal Security Tooling Owners",2026-01-29T17:41:53.749431+00:00
+Zhou Hongyi,zhouhongyi@360.cn,360 Security Technology,,Chairman and CEO,360.cn,0.9,valid,"Security Engineering / Detection Engineering Teams
+
+Org size: 50-100+ engineers
+Industry: SaaS, Cloud Infrastructure, FinTech, Cybersecurity Vendors, Large Enterprises
+Maturity: Medium–High security maturity
+
+Who exactly:
+
+Detection Engineers
+
+Security Platform Engineers
+
+Vulnerability Intelligence Engineers
+
+AppSec Infrastructure Teams
+
+Internal Security Tooling Owners",2026-01-29T17:42:43.553094+00:00
+Qi Xiangdong,qi@360.cn,360 Security Technology,,President and Co-founder,360.cn,0.91,valid,"Security Engineering / Detection Engineering Teams
+
+Org size: 50-100+ engineers
+Industry: SaaS, Cloud Infrastructure, FinTech, Cybersecurity Vendors, Large Enterprises
+Maturity: Medium–High security maturity
+
+Who exactly:
+
+Detection Engineers
+
+Security Platform Engineers
+
+Vulnerability Intelligence Engineers
+
+AppSec Infrastructure Teams
+
+Internal Security Tooling Owners",2026-01-29T17:42:53.106742+00:00
+Sid Sijbrandij,sid@gitlab.com,GitLab,,"Co-founder, CEO, Board Chair",gitlab.com,0.9,valid,"Security Engineering / Detection Engineering Teams
+
+Org size: 50-100+ engineers
+Industry: SaaS, Cloud Infrastructure, FinTech, Cybersecurity Vendors, Large Enterprises
+Maturity: Medium–High security maturity
+
+Who exactly:
+
+Detection Engineers
+
+Security Platform Engineers
+
+Vulnerability Intelligence Engineers
+
+AppSec Infrastructure Teams
+
+Internal Security Tooling Owners",2026-01-29T17:43:38.880347+00:00
+Chris Weber,chris@gitlab.com,GitLab,,Chief Revenue Officer (CRO),gitlab.com,0.9,valid,"Security Engineering / Detection Engineering Teams
+
+Org size: 50-100+ engineers
+Industry: SaaS, Cloud Infrastructure, FinTech, Cybersecurity Vendors, Large Enterprises
+Maturity: Medium–High security maturity
+
+Who exactly:
+
+Detection Engineers
+
+Security Platform Engineers
+
+Vulnerability Intelligence Engineers
+
+AppSec Infrastructure Teams
+
+Internal Security Tooling Owners",2026-01-29T17:43:42.501949+00:00
+Ashley Kramer,ashley@gitlab.com,GitLab,,Chief Marketing Officer (CMO),gitlab.com,0.9,valid,"Security Engineering / Detection Engineering Teams
+
+Org size: 50-100+ engineers
+Industry: SaaS, Cloud Infrastructure, FinTech, Cybersecurity Vendors, Large Enterprises
+Maturity: Medium–High security maturity
+
+Who exactly:
+
+Detection Engineers
+
+Security Platform Engineers
+
+Vulnerability Intelligence Engineers
+
+AppSec Infrastructure Teams
+
+Internal Security Tooling Owners",2026-01-29T17:43:45.843531+00:00
+Paul Griggs,paul@pwc.com,PwC,https://www.linkedin.com/in/paul-griggs-pwc,US Senior Partner and CEO,pwc.com,0.73,valid,"Security Engineering / Detection Engineering Teams
+
+Org size: 50-100+ engineers
+Industry: SaaS, Cloud Infrastructure, FinTech, Cybersecurity Vendors, Large Enterprises
+Maturity: Medium–High security maturity
+
+Who exactly:
+
+Detection Engineers
+
+Security Platform Engineers
+
+Vulnerability Intelligence Engineers
+
+AppSec Infrastructure Teams
+
+Internal Security Tooling Owners",2026-01-29T17:43:56.014388+00:00
+Mohamed Kande,mohamed@pwc.com,PwC,,PwC Global Chairman,pwc.com,0.9,valid,"Security Engineering / Detection Engineering Teams
+
+Org size: 50-100+ engineers
+Industry: SaaS, Cloud Infrastructure, FinTech, Cybersecurity Vendors, Large Enterprises
+Maturity: Medium–High security maturity
+
+Who exactly:
+
+Detection Engineers
+
+Security Platform Engineers
+
+Vulnerability Intelligence Engineers
+
+AppSec Infrastructure Teams
+
+Internal Security Tooling Owners",2026-01-29T17:43:59.082438+00:00
+Deanna Byrne,deanna@pwc.com,PwC,,Assurance Leader,pwc.com,0.9,valid,"Security Engineering / Detection Engineering Teams
+
+Org size: 50-100+ engineers
+Industry: SaaS, Cloud Infrastructure, FinTech, Cybersecurity Vendors, Large Enterprises
+Maturity: Medium–High security maturity
+
+Who exactly:
+
+Detection Engineers
+
+Security Platform Engineers
+
+Vulnerability Intelligence Engineers
+
+AppSec Infrastructure Teams
+
+Internal Security Tooling Owners",2026-01-29T17:44:02.619270+00:00
+Kip Compton,kip@fastly.com,Fastly,,CEO,fastly.com,0.9,valid,Mid-market to Enterprise companies in regulated sectors (Finance/SaaS/Infra) where the CISO is personally liable for security decisions and the team is currently paralyzed by manual CVE triage.,2026-01-29T18:14:28.015196+00:00
+Scott Lovett,scott@fastly.com,Fastly,,"President, Go to Market (CRO)",fastly.com,0.9,valid,Mid-market to Enterprise companies in regulated sectors (Finance/SaaS/Infra) where the CISO is personally liable for security decisions and the team is currently paralyzed by manual CVE triage.,2026-01-29T18:14:31.870311+00:00
+Artur Bergman,artur@fastly.com,Fastly,,Co-Founder,fastly.com,1.0,valid,Mid-market to Enterprise companies in regulated sectors (Finance/SaaS/Infra) where the CISO is personally liable for security decisions and the team is currently paralyzed by manual CVE triage.,2026-01-29T18:14:35.211030+00:00
+Clay Magouyrk,clay.magouyrk@oracle.com,Oracle,,Chief Executive Officer,oracle.com,1.0,valid,Mid-market to Enterprise companies in regulated sectors (Finance/SaaS/Infra) where the CISO is personally liable for security decisions and the team is currently paralyzed by manual CVE triage.,2026-01-29T18:14:54.554015+00:00
+Mike Sicilia,mike.sicilia@oracle.com,Oracle,,Chief Executive Officer,oracle.com,0.91,valid,Mid-market to Enterprise companies in regulated sectors (Finance/SaaS/Infra) where the CISO is personally liable for security decisions and the team is currently paralyzed by manual CVE triage.,2026-01-29T18:15:07.885526+00:00
+Suresh Vasudevan,suresh@sysdig.com,Sysdig,,CEO,sysdig.com,0.9,valid,Mid-market to Enterprise companies in regulated sectors (Finance/SaaS/Infra) where the CISO is personally liable for security decisions and the team is currently paralyzed by manual CVE triage.,2026-01-29T18:15:50.620630+00:00
+Karen Walker,karen.walker@sysdig.com,Sysdig,,CFO,sysdig.com,1.0,valid,Mid-market to Enterprise companies in regulated sectors (Finance/SaaS/Infra) where the CISO is personally liable for security decisions and the team is currently paralyzed by manual CVE triage.,2026-01-29T18:16:20.829277+00:00
+Steve Cox,steve@salesloft.com,Salesloft,,CEO,salesloft.com,0.9,valid,Mid-market to Enterprise companies in regulated sectors (Finance/SaaS/Infra) where the CISO is personally liable for security decisions and the team is currently paralyzed by manual CVE triage.,2026-01-30T03:28:13.581374+00:00
+Mark Niemiec,mark@salesloft.com,Salesloft,,Chief Revenue Officer (CRO),salesloft.com,0.9,valid,Mid-market to Enterprise companies in regulated sectors (Finance/SaaS/Infra) where the CISO is personally liable for security decisions and the team is currently paralyzed by manual CVE triage.,2026-01-30T03:28:16.840040+00:00
+Shailesh Shukla,shailesh@aryaka.com,Aryaka,,Chairman and CEO,aryaka.com,0.9,valid,Mid-market to Enterprise companies in regulated sectors (Finance/SaaS/Infra) where the CISO is personally liable for security decisions and the team is currently paralyzed by manual CVE triage.,2026-01-30T03:28:25.290735+00:00
+Joe Alagna,joe@aryaka.com,Aryaka,,VP of Global Channels,aryaka.com,0.9,valid,Mid-market to Enterprise companies in regulated sectors (Finance/SaaS/Infra) where the CISO is personally liable for security decisions and the team is currently paralyzed by manual CVE triage.,2026-01-30T03:28:29.473300+00:00

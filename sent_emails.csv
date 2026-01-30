@@ -1,0 +1,34 @@
+name,email,company,sent,thread_id,timestamp
+Vlad,vlad@belkins.io,Belkins,True,19afdf0ddf583c04,2025-12-08T12:30:12.635362Z
+Michael,michael@belkins.io,Belkins,True,19afdf0e94ea52cd,2025-12-08T12:30:15.623921Z
+Brian,brian@belkins.io,Belkins,True,19afdf0f3e9e7d3c,2025-12-08T12:30:17.804458Z
+Bruce Merrill,bruce@cleverly.co,Cleverly,True,19afdf0fc3b3f088,2025-12-08T12:30:20.484784Z
+Nick Verity,nick@cleverly.co,Cleverly,True,19afdf1095ab9f77,2025-12-08T12:30:23.663802Z
+Oz Olvera,oz@cleverly.co,Cleverly,True,19afdf116836ca73,2025-12-08T12:30:27.155236Z
+David Kreiger,david@salesroads.com,SalesRoads,True,19afdf12460d6f1a,2025-12-08T12:30:30.841853Z
+Sara Bishop,sara@salesroads.com,SalesRoads,True,19afdf1340d991ae,2025-12-08T12:30:34.819723Z
+Maria Enns,maria@salesroads.com,SalesRoads,True,19afdf140e4fdae1,2025-12-08T12:30:38.213196Z
+Rob Harlow,rob@sopro.io,Sopro,True,19afdf14f251cd5d,2025-12-08T12:30:41.695762Z
+Ryan Welmans,ryan@sopro.io,Sopro,True,19afdf16a81bbd15,2025-12-08T12:30:48.813046Z
+Steve Harlow,steve@sopro.io,Sopro,True,19afdf1795ec0b4f,2025-12-08T12:30:52.446925Z
+Ayhan K. Isaacs,ayhan@growthrhino.com,GrowthRhino,True,19afdf1848f1ddd4,2025-12-08T12:30:55.294691Z
+Aditi Syal,aditi@concurate.com,Concurate,True,19afdf19a744f67e,2025-12-08T12:31:00.899263Z
+Nitesh Gupta,nitesh@concurate.com,Concurate,True,19afdf1a89aa1970,2025-12-08T12:31:04.666016Z
+Eric Boggs,eric@revboss.com,RevBoss,True,19afdf1b833398a2,2025-12-08T12:31:08.917987Z
+Danny Chu,danny.chu@revboss.com,RevBoss,True,19afdf1c62175e89,2025-12-08T12:31:12.314364Z
+Zach Boylston,zach@revboss.com,RevBoss,True,19afdf1d5d6b9a79,2025-12-08T12:31:16.102461Z
+Bill Stathopoulos,bill@salescaptain.io,SalesCaptain,True,19afdf1e19c0bca9,2025-12-08T12:31:18.867786Z
+Andrew Stanten,andrew@altitudemarketing.com,Altitude Marketing,True,19afdf1edd97a288,2025-12-08T12:31:22.245887Z
+Laura Budraitis,laura@altitudemarketing.com,Altitude Marketing,True,19afdf1fbf4a87b8,2025-12-08T12:31:25.550126Z
+Drew Frantzen,drew@altitudemarketing.com,Altitude Marketing,True,19afdf2081b53222,2025-12-08T12:31:29.210916Z
+Michel Lieben,michel@coldiq.com,ColdIQ,True,19afdf217e494a3a,2025-12-08T12:31:32.734549Z
+Alex Vacca,alex@coldiq.com,ColdIQ,True,19afdf22a23ec1b5,2025-12-08T12:31:38.063219Z
+Soheil Saeidmehr,soheil@coldiq.com,ColdIQ,True,19afdf23aa36c80d,2025-12-08T12:31:41.820665Z
+Chris Leach,chris@310creative.com,310 Creative,True,19afdf24956d57f8,2025-12-08T12:31:45.492151Z
+Jack O'Holleran,jack@skale.so,Skale,True,19afdf257e8d872d,2025-12-08T12:31:49.172041Z
+Italo Viale,italo@skale.so,Skale,True,19afdf263fa1e40e,2025-12-08T12:31:52.501035Z
+Jake Stainer,jake@skale.so,Skale,True,19afdf2705a4cf1e,2025-12-08T12:31:55.834700Z
+Jack Reamer,jack@salesbread.com,SalesBread,True,19afdf27e98b9fe0,2025-12-08T12:31:59.519604Z
+Evan Bailyn,evan@firstpagesage.com,FirstPageSage,True,19afdf28b07d9cfb,2025-12-08T12:32:02.674207Z
+Mikayla Reine Archambeau,mikayla@firstpagesage.com,FirstPageSage,True,19afdf2927c4e768,2025-12-08T12:32:04.500395Z
+Ace,ace25584@gmail.com,gmailc,True,19afdf2a1ece2fdf,2025-12-08T12:32:08.122253Z
