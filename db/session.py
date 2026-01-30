@@ -6,8 +6,11 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-# Database URL from environment, default to SQLite for development
-DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./ai_outbound.db")
+# Project root = parent of db/ package; use same DB regardless of cwd
+_PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+_DEFAULT_DB_PATH = os.path.join(_PROJECT_ROOT, "ai_outbound.db")
+# Database URL from environment, default to SQLite in project root
+DATABASE_URL = os.getenv("DATABASE_URL", f"sqlite:///{_DEFAULT_DB_PATH}")
 
 engine = create_engine(
     DATABASE_URL,

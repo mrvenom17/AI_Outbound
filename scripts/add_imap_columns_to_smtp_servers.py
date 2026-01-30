@@ -1,12 +1,13 @@
 # scripts/add_imap_columns_to_smtp_servers.py
-"""Add IMAP/POP3 and use_ssl columns to smtp_servers if missing."""
+"""Add IMAP/POP3 and use_ssl columns to smtp_servers if missing. Run from project root."""
 import sys
 import os
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 def run():
-    from db.session import engine
+    from db.session import engine, _DEFAULT_DB_PATH
     from sqlalchemy import text
+    print(f"Database: {_DEFAULT_DB_PATH}")
     cols_add = [
         ("use_ssl", "INTEGER DEFAULT 0"),
         ("imap_host", "TEXT"),
