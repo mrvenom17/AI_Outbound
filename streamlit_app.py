@@ -1013,6 +1013,17 @@ elif page == "⚡ Actions":
             
             if leads_to_send:
                 subject = st.text_input("Email Subject", value="Quick question")
+                from utils.settings import get_setting as _get_pers
+                personalization_level = _get_pers("email_personalization_level", "high", db=db)
+                custom_body_same = ""
+                if personalization_level == "low":
+                    st.caption("Personalization is set to **Low** — enter one email body below; it will be sent to all selected leads.")
+                    custom_body_same = st.text_area(
+                        "Email body (same for all)",
+                        height=200,
+                        placeholder="Write the email that will be sent to every selected lead. You can use {name} and {company} as placeholders if you want (e.g. Hi {name}, ...).",
+                        key="send_same_body_low",
+                    )
                 
                 # Preview leads with sent status
                 with st.expander(f"Preview {len(leads_to_send)} Leads"):
@@ -1037,6 +1048,8 @@ elif page == "⚡ Actions":
                 if st.button("🚀 Send Emails", type="primary"):
                     if not subject:
                         st.error("Please enter an email subject")
+                    elif personalization_level == "low" and not (custom_body_same or "").strip():
+                        st.error("Personalization is set to Low — please enter the email body in the box above (same mail will go to all).")
                     else:
                         try:
                             from utils.settings import get_setting as _get_setting_send
@@ -1061,161 +1074,168 @@ elif page == "⚡ Actions":
                             status_text = st.empty()
                             results = []
                             
+                            use_same_body = (personalization_level == "low" and (custom_body_same or "").strip())
+                            
                             for i, lead in enumerate(leads_to_send):
                                 lead_name = lead.person.name if lead.person else "Unknown"
                                 status_text.text(f"Sending to {lead_name} ({lead.email})... ({i+1}/{len(leads_to_send)})")
                                 
                                 try:
-                                    # Get verified signals from database (evidence-based)
-                                    verified_signals = []
-                                    company_focus = None
-                                    
-                                    try:
-                                        from db.models import EnrichmentSignal, ScrapedContent
-                                        from scrapers.enrichment import summarize_company_focus
+                                    if use_same_body:
+                                        # Same mail for all: use custom body, optionally replace {name} and {company}
+                                        body = (custom_body_same or "").strip()
+                                        body = body.replace("{name}", lead_name).replace("{company}", lead.company or "")
+                                    else:
+                                        # Get verified signals from database (evidence-based)
+                                        verified_signals = []
+                                        company_focus = None
                                         
-                                        # Get verified signals for this lead
-                                        signals = db.query(EnrichmentSignal).filter(
-                                            EnrichmentSignal.lead_id == lead.id,
-                                            EnrichmentSignal.confidence >= 0.7
-                                        ).all()
-                                        
-                                        verified_signals = [
-                                            {
-                                                "signal_type": s.signal_type,
-                                                "signal_text": s.signal_text,
-                                                "source_url": s.source_url,
-                                                "confidence": s.confidence
-                                            }
-                                            for s in signals
-                                        ]
-                                        
-                                        # Get company focus if available
-                                        if lead.person and lead.person.company:
-                                            company_id = lead.person.company.id
-                                            scraped_content = db.query(ScrapedContent).filter(
-                                                ScrapedContent.company_id == company_id
+                                        try:
+                                            from db.models import EnrichmentSignal, ScrapedContent
+                                            from scrapers.enrichment import summarize_company_focus
+                                            
+                                            # Get verified signals for this lead
+                                            signals = db.query(EnrichmentSignal).filter(
+                                                EnrichmentSignal.lead_id == lead.id,
+                                                EnrichmentSignal.confidence >= 0.7
                                             ).all()
                                             
-                                            if scraped_content:
-                                                scraped_texts = [
-                                                    {
-                                                        "source_url": c.source_url,
-                                                        "raw_text": c.raw_text,
-                                                        "page_type": c.page_type,
-                                                        "page_date": c.page_date
-                                                    }
-                                                    for c in scraped_content
-                                                ]
-                                                company_focus = summarize_company_focus(scraped_texts)
+                                            verified_signals = [
+                                                {
+                                                    "signal_type": s.signal_type,
+                                                    "signal_text": s.signal_text,
+                                                    "source_url": s.source_url,
+                                                    "confidence": s.confidence
+                                                }
+                                                for s in signals
+                                            ]
+                                            
+                                            # Get company focus if available
+                                            if lead.person and lead.person.company:
+                                                company_id = lead.person.company.id
+                                                scraped_content = db.query(ScrapedContent).filter(
+                                                    ScrapedContent.company_id == company_id
+                                                ).all()
+                                                
+                                                if scraped_content:
+                                                    scraped_texts = [
+                                                        {
+                                                            "source_url": c.source_url,
+                                                            "raw_text": c.raw_text,
+                                                            "page_type": c.page_type,
+                                                            "page_date": c.page_date
+                                                        }
+                                                        for c in scraped_content
+                                                    ]
+                                                    company_focus = summarize_company_focus(scraped_texts)
+                                            
+                                        except Exception:
+                                            pass
                                         
-                                    except Exception:
-                                        pass
-                                    
-                                    # Campaign context (so emails adapt to campaign offer)
-                                    campaign_name = None
-                                    campaign_offer = None
-                                    cid = campaign_id  # from "From Campaign Leads" mode
-                                    if not cid and lead.person and lead.person.company:
-                                        cid = lead.person.company.campaign_id  # per-lead campaign when Manual/All
-                                    if cid:
-                                        camp = db.query(Campaign).filter(Campaign.id == cid).first()
-                                        if camp:
-                                            campaign_name = camp.name
-                                            campaign_offer = getattr(camp, 'offer_description', None) or camp.name
-                                    
-                                    # Build company_enrichment / person_enrichment from Company + verified signals (use all data)
-                                    company_enrichment = {}
-                                    person_enrichment = {}
-                                    if lead.person and lead.person.company:
-                                        co = lead.person.company
-                                        if co.signals:
-                                            company_enrichment["signals"] = co.signals
-                                        if co.funding_stage:
-                                            company_enrichment["funding_stage"] = co.funding_stage
-                                        if co.hq_country:
-                                            company_enrichment["hq_country"] = co.hq_country
-                                    for s in verified_signals:
-                                        t = s.get("signal_type", "")
-                                        txt = s.get("signal_text", "")
-                                        if t in ("funding_round", "latest_funding") and txt:
-                                            company_enrichment["latest_funding"] = txt
-                                        if t in ("company_announcement", "recent_news") and txt:
-                                            company_enrichment["recent_news"] = company_enrichment.get("recent_news", "") + " " + txt
-                                        if t in ("recent_hires", "hiring_signal") and txt:
-                                            company_enrichment["recent_hires"] = txt
-                                        if t in ("product_launch", "product_updates") and txt:
-                                            company_enrichment["product_updates"] = txt
-                                        if t == "pain_point" and txt:
-                                            person_enrichment["pain_points"] = txt
-                                        if t in ("recent_activity", "public_statement") and txt:
-                                            person_enrichment["recent_activity"] = txt
-                                    
-                                    # Generate evidence-based email (use all enrichment + campaign)
-                                    from agents.email_agent import generate_evidence_based_email, should_send_email
-                                    
-                                    if verified_signals or company_focus or company_enrichment or person_enrichment:
-                                        body = generate_evidence_based_email(
-                                            name=lead_name,
-                                            company=lead.company,
-                                            role=lead.role or "",
-                                            verified_signals=verified_signals,
-                                            company_focus=company_focus,
-                                            company_enrichment=company_enrichment or None,
-                                            person_enrichment=person_enrichment or None,
-                                            min_confidence=0.7,
-                                            campaign_name=campaign_name,
-                                            campaign_offer=campaign_offer,
-                                        )
-                                    else:
-                                        body = generate_email(
-                                            lead_name,
-                                            lead.company,
-                                            lead.linkedin_url or "",
-                                            company_enrichment=company_enrichment or None,
-                                            person_enrichment=person_enrichment or None,
-                                            campaign_name=campaign_name,
-                                            campaign_offer=campaign_offer,
-                                        )
-                                    
-                                    # Mail Critic: evaluate and rewrite until pass or max_rewrites
-                                    from utils.settings import get_setting as _get_setting
-                                    enable_critic = _get_setting("enable_mail_critic", True, db=db)
-                                    if enable_critic:
-                                        from agents.mail_critic import evaluate_email, rewrite_email_with_feedback
-                                        min_score = float(_get_setting("critic_min_score", 0.7, db=db))
-                                        max_rewrites = int(_get_setting("critic_max_rewrites", 2, db=db))
-                                        strictness = _get_setting("critic_strictness", "medium", db=db) or "medium"
-                                        for attempt in range(max_rewrites + 1):
-                                            passed, score, feedback = evaluate_email(
-                                                body, lead_name, lead.company,
-                                                min_score=min_score, strictness=strictness,
+                                        # Campaign context (so emails adapt to campaign offer)
+                                        campaign_name = None
+                                        campaign_offer = None
+                                        cid = campaign_id  # from "From Campaign Leads" mode
+                                        if not cid and lead.person and lead.person.company:
+                                            cid = lead.person.company.campaign_id  # per-lead campaign when Manual/All
+                                        if cid:
+                                            camp = db.query(Campaign).filter(Campaign.id == cid).first()
+                                            if camp:
+                                                campaign_name = camp.name
+                                                campaign_offer = getattr(camp, 'offer_description', None) or camp.name
+                                        
+                                        # Build company_enrichment / person_enrichment from Company + verified signals (use all data)
+                                        company_enrichment = {}
+                                        person_enrichment = {}
+                                        if lead.person and lead.person.company:
+                                            co = lead.person.company
+                                            if co.signals:
+                                                company_enrichment["signals"] = co.signals
+                                            if co.funding_stage:
+                                                company_enrichment["funding_stage"] = co.funding_stage
+                                            if co.hq_country:
+                                                company_enrichment["hq_country"] = co.hq_country
+                                        for s in verified_signals:
+                                            t = s.get("signal_type", "")
+                                            txt = s.get("signal_text", "")
+                                            if t in ("funding_round", "latest_funding") and txt:
+                                                company_enrichment["latest_funding"] = txt
+                                            if t in ("company_announcement", "recent_news") and txt:
+                                                company_enrichment["recent_news"] = company_enrichment.get("recent_news", "") + " " + txt
+                                            if t in ("recent_hires", "hiring_signal") and txt:
+                                                company_enrichment["recent_hires"] = txt
+                                            if t in ("product_launch", "product_updates") and txt:
+                                                company_enrichment["product_updates"] = txt
+                                            if t == "pain_point" and txt:
+                                                person_enrichment["pain_points"] = txt
+                                            if t in ("recent_activity", "public_statement") and txt:
+                                                person_enrichment["recent_activity"] = txt
+                                        
+                                        # Generate evidence-based email (use all enrichment + campaign)
+                                        from agents.email_agent import generate_evidence_based_email, should_send_email
+                                        
+                                        if verified_signals or company_focus or company_enrichment or person_enrichment:
+                                            body = generate_evidence_based_email(
+                                                name=lead_name,
+                                                company=lead.company,
+                                                role=lead.role or "",
+                                                verified_signals=verified_signals,
+                                                company_focus=company_focus,
+                                                company_enrichment=company_enrichment or None,
+                                                person_enrichment=person_enrichment or None,
+                                                min_confidence=0.7,
+                                                campaign_name=campaign_name,
+                                                campaign_offer=campaign_offer,
                                             )
-                                            if passed:
-                                                break
-                                            if feedback and attempt < max_rewrites:
-                                                body = rewrite_email_with_feedback(
-                                                    body, feedback, lead_name, lead.company,
+                                        else:
+                                            body = generate_email(
+                                                lead_name,
+                                                lead.company,
+                                                lead.linkedin_url or "",
+                                                company_enrichment=company_enrichment or None,
+                                                person_enrichment=person_enrichment or None,
+                                                campaign_name=campaign_name,
+                                                campaign_offer=campaign_offer,
+                                            )
+                                        
+                                        # Mail Critic: evaluate and rewrite until pass or max_rewrites
+                                        from utils.settings import get_setting as _get_setting
+                                        enable_critic = _get_setting("enable_mail_critic", True, db=db)
+                                        if enable_critic:
+                                            from agents.mail_critic import evaluate_email, rewrite_email_with_feedback
+                                            min_score = float(_get_setting("critic_min_score", 0.7, db=db))
+                                            max_rewrites = int(_get_setting("critic_max_rewrites", 2, db=db))
+                                            strictness = _get_setting("critic_strictness", "medium", db=db) or "medium"
+                                            for attempt in range(max_rewrites + 1):
+                                                passed, score, feedback = evaluate_email(
+                                                    body, lead_name, lead.company,
+                                                    min_score=min_score, strictness=strictness,
                                                 )
-                                    
-                                    # Check if should send
-                                    should_send, reason = should_send_email(
-                                        verified_signals=verified_signals,
-                                        email_body=body,
-                                        min_confidence=0.7,
-                                        require_signal=False
-                                    )
-                                    
-                                    if not should_send:
-                                        st.warning(f"Email rejected: {reason}")
-                                        results.append({
-                                            "name": lead_name,
-                                            "email": lead.email,
-                                            "company": lead.company,
-                                            "sent": False,
-                                            "thread_id": None,
-                                        })
-                                        continue
+                                                if passed:
+                                                    break
+                                                if feedback and attempt < max_rewrites:
+                                                    body = rewrite_email_with_feedback(
+                                                        body, feedback, lead_name, lead.company,
+                                                    )
+                                        
+                                        # Check if should send
+                                        should_send, reason = should_send_email(
+                                            verified_signals=verified_signals,
+                                            email_body=body,
+                                            min_confidence=0.7,
+                                            require_signal=False
+                                        )
+                                        
+                                        if not should_send:
+                                            st.warning(f"Email rejected: {reason}")
+                                            results.append({
+                                                "name": lead_name,
+                                                "email": lead.email,
+                                                "company": lead.company,
+                                                "sent": False,
+                                                "thread_id": None,
+                                            })
+                                            continue
                                     
                                     # Send email (SMTP rotation or Gmail)
                                     if use_smtp_path:
