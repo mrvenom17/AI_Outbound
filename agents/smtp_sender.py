@@ -5,9 +5,13 @@ Use send_email_dispatch() to send via SMTP (when configured) or Gmail API.
 """
 import smtplib
 import random
+import mimetypes
 from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+from email.mime.base import MIMEBase
+from email import encoders
 from datetime import datetime
-from typing import Optional, Any
+from typing import Optional, Any, List, Tuple
 
 from db.models import SmtpServer
 
@@ -69,14 +73,26 @@ def send_email_smtp(
     db=None,
     update_usage: bool = True,
     timeout: int = SMTP_TIMEOUT,
+    attachments: Optional[List[Tuple[str, bytes]]] = None,
 ) -> Optional[str]:
     """
     Send one email via the given SMTP server.
-    Supports port 465 (SMTP_SSL) and 587 (STARTTLS).
+    attachments: optional list of (filename, raw_bytes) for any file type.
     Returns a message_id-like string on success (for logging), None on failure.
-    If update_usage is True, increments emails_sent and last_used_at on server.
     """
-    msg = MIMEText(body)
+    if attachments:
+        msg = MIMEMultipart("mixed")
+        msg.attach(MIMEText(body, "plain"))
+        for filename, data in attachments:
+            ctype, _ = mimetypes.guess_type(filename) or ("application", "octet-stream")
+            maintype, subtype = ctype.split("/", 1) if "/" in ctype else ("application", "octet-stream")
+            part = MIMEBase(maintype, subtype)
+            part.set_payload(data)
+            encoders.encode_base64(part)
+            part.add_header("Content-Disposition", "attachment", filename=filename)
+            msg.attach(part)
+    else:
+        msg = MIMEText(body)
     msg["Subject"] = subject
     msg["From"] = f"{server.from_name} <{server.from_email}>" if server.from_name else server.from_email
     msg["To"] = to
@@ -103,8 +119,8 @@ def send_email_smtp(
                 import time
                 time.sleep(2)
                 continue
-            print(f"❌ SMTP send failed ({server.host}): {last_error}")
-            return None
+            # Raise so callers (UI / CLI) can show the actual error to the user
+            raise RuntimeError(f"SMTP send failed ({server.host}:{port}): {last_error}") from last_error
 
     if last_error is not None:
         return None
@@ -131,11 +147,11 @@ def send_email_dispatch(
     check_rate_limit: bool = True,
     lead_id: Optional[int] = None,
     db=None,
+    attachments: Optional[List[Tuple[str, bytes]]] = None,
 ):
     """
     Send email using SMTP (with rotation) or Gmail API based on settings.
-    - If use_smtp_servers is True and there are active SMTP servers, use SMTP rotation.
-    - Otherwise use Gmail API (authenticate_gmail + send_email).
+    attachments: optional list of (filename, raw_bytes) for any file type.
     Returns thread_id or message_id string on success, None on failure.
     """
     from utils.settings import get_setting
@@ -162,7 +178,7 @@ def send_email_dispatch(
                     can_send, reason = can_send_email()
                     if not can_send:
                         return None
-                msg_id = send_email_smtp(server, to, subject, body, db=db)
+                msg_id = send_email_smtp(server, to, subject, body, db=db, attachments=attachments)
                 if msg_id:
                     from agents.gmail_service import _store_sent_email
                     _store_sent_email(to, subject, body, msg_id)
@@ -171,7 +187,7 @@ def send_email_dispatch(
     from agents.gmail_service import authenticate_gmail, send_email
     try:
         service = authenticate_gmail()
-        return send_email(service, to, subject, body, check_rate_limit=check_rate_limit, lead_id=lead_id)
+        return send_email(service, to, subject, body, check_rate_limit=check_rate_limit, lead_id=lead_id, attachments=attachments)
     except Exception as e:
         print(f"❌ Gmail send failed: {e}")
         return None

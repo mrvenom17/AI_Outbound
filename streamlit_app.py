@@ -1029,6 +1029,11 @@ elif page == "⚡ Actions":
                         key="send_same_body_low",
                     )
                 
+                st.markdown("**Attachments (optional)** — same files will be sent with every email.")
+                uploaded_attachments = st.file_uploader("Add attachments", type=None, accept_multiple_files=True, key="send_attachments", help="Any file type. These will be attached to all emails in this send.")
+                if uploaded_attachments:
+                    st.caption(f"📎 {len(uploaded_attachments)} file(s): {', '.join(f.name for f in uploaded_attachments)}")
+                
                 # Preview leads with sent status
                 with st.expander(f"Preview {len(leads_to_send)} Leads"):
                     from db.models import SentEmail
@@ -1058,6 +1063,7 @@ elif page == "⚡ Actions":
                         try:
                             from utils.settings import get_setting as _get_setting_send
                             from agents.smtp_sender import get_active_smtp_servers, send_email_dispatch
+                            attachments_list = [(f.name, f.read()) for f in (uploaded_attachments or [])] or None
                             use_smtp = _get_setting_send("use_smtp_servers", False, db=db)
                             smtp_servers = get_active_smtp_servers(db) if use_smtp else []
                             use_smtp_path = use_smtp and len(smtp_servers) > 0
@@ -1243,9 +1249,9 @@ elif page == "⚡ Actions":
                                     
                                     # Send email (SMTP rotation or Gmail)
                                     if use_smtp_path:
-                                        thread_id = send_email_dispatch(lead.email, subject, body, check_rate_limit=True, lead_id=lead.id, db=db)
+                                        thread_id = send_email_dispatch(lead.email, subject, body, check_rate_limit=True, lead_id=lead.id, db=db, attachments=attachments_list)
                                     else:
-                                        thread_id = send_email(service, lead.email, subject, body, check_rate_limit=True, lead_id=lead.id)
+                                        thread_id = send_email(service, lead.email, subject, body, check_rate_limit=True, lead_id=lead.id, attachments=attachments_list)
                                     
                                     results.append({
                                         "name": lead_name,
@@ -1780,6 +1786,9 @@ elif page == "📧 SMTP Servers":
     try:
         from db.models import SmtpServer
         from agents.smtp_sender import get_active_smtp_servers, send_email_smtp
+        from utils.settings import get_setting as _gs_smtp
+        if not _gs_smtp("use_smtp_servers", False, db=db):
+            st.warning("⚠️ **Use SMTP servers** is currently **off** in Settings → Email Settings. Turn it on so sends use these servers instead of Gmail.")
         
         tab_list, tab_add = st.tabs(["Manage Servers", "Add Server"])
         
@@ -1800,15 +1809,16 @@ elif page == "📧 SMTP Servers":
                             if s.last_used_at:
                                 st.caption(f"Last used: {s.last_used_at}")
                         with col2:
+                            st.caption("Test uses **SMTP** (sending). Ensure SMTP host/port above are correct, not IMAP.")
                             if st.button("Test connection", key=f"test_{s.id}"):
                                 try:
                                     msg_id = send_email_smtp(s, s.from_email, "SMTP test", "Test from AI Outbound SMTP.", db=db, update_usage=False)
                                     if msg_id:
                                         st.success("Test email sent to yourself.")
                                     else:
-                                        st.error("Send failed.")
+                                        st.error("Send failed (no error details).")
                                 except Exception as e:
-                                    st.error(str(e))
+                                    st.error(f"SMTP error: {e}")
                             if st.button("Delete", key=f"del_{s.id}"):
                                 db.delete(s)
                                 db.commit()
@@ -1817,8 +1827,9 @@ elif page == "📧 SMTP Servers":
         
         with tab_add:
             st.subheader("Add Email Server (SMTP + optional IMAP)")
+            st.info("**Sending** uses **SMTP** (host/port/username/password below). **Inbox** uses **IMAP** (optional, different section). Many providers use different hosts: e.g. `smtp.gmail.com` for sending, `imap.gmail.com` for reading. Use the SMTP host here for sending.")
             name = st.text_input("Name", placeholder="e.g. Primary SMTP", key="smtp_name")
-            host = st.text_input("SMTP Host", placeholder="smtp.example.com", key="smtp_host")
+            host = st.text_input("SMTP Host", placeholder="smtp.example.com (use SMTP host, not imap.example.com)", key="smtp_host")
             port = st.number_input("SMTP Port", min_value=1, max_value=65535, value=587, key="smtp_port", help="587 = STARTTLS, 465 = SSL")
             use_tls = st.checkbox("Use STARTTLS (port 587)", value=True, key="smtp_tls")
             use_ssl = st.checkbox("Use SSL (port 465) — check if your host uses 465", value=False, key="smtp_use_ssl")

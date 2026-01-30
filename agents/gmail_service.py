@@ -1,7 +1,7 @@
 # agents/gmail_service.py
 import os
 import pickle
-from typing import Optional
+from typing import Optional, List, Tuple
 from google.auth.transport.requests import Request
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
@@ -56,24 +56,18 @@ def authenticate_gmail():
 
 # Add to agents/gmail_service.py
 import base64
+import mimetypes
 from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+from email.mime.base import MIMEBase
+from email import encoders
 from agents.rate_limiter import can_send_email
 import time
-
-def send_email(service, to: str, subject: str, body: str, check_rate_limit: bool = True, lead_id: Optional[int] = None):
+def send_email(service, to: str, subject: str, body: str, check_rate_limit: bool = True, lead_id: Optional[int] = None, attachments: Optional[List[Tuple[str, bytes]]] = None):
     """
     Send email via Gmail API with rate limiting and deliverability checks.
-    
-    Args:
-        service: Gmail API service object
-        to: Recipient email address
-        subject: Email subject
-        body: Email body
-        check_rate_limit: If True, check rate limits before sending
-        lead_id: Optional lead ID for suppression checks
-    
-    Returns:
-        thread_id if successful, None if failed or rate limited
+    attachments: optional list of (filename, raw_bytes) for any file type.
+    Returns thread_id if successful, None if failed or rate limited.
     """
     # Deliverability safety checks
     try:
@@ -101,10 +95,23 @@ def send_email(service, to: str, subject: str, body: str, check_rate_limit: bool
             print(f"⏸️  Rate limited: {reason}")
             return None
     
-    message = MIMEText(body)
-    message['to'] = to
-    message['subject'] = subject
-    create_message = {'raw': base64.urlsafe_b64encode(message.as_bytes()).decode()}
+    if attachments:
+        message = MIMEMultipart("mixed")
+        message.attach(MIMEText(body, "plain"))
+        for filename, data in attachments:
+            ctype, _ = mimetypes.guess_type(filename) or ("application/octet-stream", None)
+            parts = ctype.split("/", 1) if ctype and "/" in ctype else ["application", "octet-stream"]
+            maintype, subtype = parts[0], parts[1] if len(parts) > 1 else "octet-stream"
+            part = MIMEBase(maintype, subtype)
+            part.set_payload(data)
+            encoders.encode_base64(part)
+            part.add_header("Content-Disposition", "attachment", filename=filename)
+            message.attach(part)
+    else:
+        message = MIMEText(body)
+    message["to"] = to
+    message["subject"] = subject
+    create_message = {"raw": base64.urlsafe_b64encode(message.as_bytes()).decode()}
     
     try:
         sent = service.users().messages().send(userId="me", body=create_message).execute()
