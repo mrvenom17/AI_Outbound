@@ -1495,7 +1495,7 @@ elif page == "⚡ Actions":
         
         with tab3:
             st.subheader("📥 Add Leads from CSV/Excel")
-            st.caption("Upload a CSV or Excel file to import leads. Required columns: name, email, company. Optional: domain, linkedin_url, role.")
+            st.caption("Upload a CSV or Excel file. **Only email is required.** If the file has only emails, we use domain from email (@ part), name from part before @; rest left empty.")
             
             uploaded_file = st.file_uploader("Choose CSV or Excel file", type=["csv", "xlsx", "xls"], key="add_leads_upload")
             campaign_id_import = None
@@ -1506,6 +1506,15 @@ elif page == "⚡ Actions":
                 selected_campaign_import = st.selectbox("Assign to campaign", list(campaign_names_import.keys()), key="add_leads_campaign")
                 campaign_id_import = campaign_names_import.get(selected_campaign_import)
             also_csv = st.checkbox("Also append to leads.csv", value=True, help="Keep a CSV backup of imported leads")
+            
+            def _derive_from_email(addr: str):
+                """From email derive: domain (after @), name (before @, formatted), company (empty)."""
+                addr = (addr or "").strip()
+                if "@" in addr:
+                    local, domain = addr.split("@", 1)
+                    name = local.replace(".", " ").replace("_", " ").replace("-", " ").strip().title() or local
+                    return domain.strip(), name, ""
+                return "", addr, ""
             
             if uploaded_file:
                 try:
@@ -1534,15 +1543,20 @@ elif page == "⚡ Actions":
                         linkedin_col = pick_col("linkedin_url", "linkedin", "linkedin url")
                         role_col = pick_col("role", "title", "job title")
                         
-                        if not name_col:
-                            name_col = st.selectbox("Map column to **Name**", options=list(df.columns), key="map_name")
+                        # Email is required; name/company can be "derive from email"
                         if not email_col:
-                            email_col = st.selectbox("Map column to **Email**", options=list(df.columns), key="map_email")
+                            email_col = st.selectbox("Map column to **Email** (required)", options=list(df.columns), key="map_email")
+                        if not name_col:
+                            name_col = st.selectbox("Map column to **Name** (optional)", options=["— From email (before @) —"] + list(df.columns), key="map_name")
+                            if name_col == "— From email (before @) —":
+                                name_col = None
                         if not company_col:
-                            company_col = st.selectbox("Map column to **Company**", options=list(df.columns), key="map_company")
+                            company_col = st.selectbox("Map column to **Company** (optional)", options=["— Leave empty —"] + list(df.columns), key="map_company")
+                            if company_col == "— Leave empty —":
+                                company_col = None
                         if not domain_col and "domain" not in [name_col, email_col, company_col]:
-                            domain_col = st.selectbox("Map column to **Domain** (optional)", options=["— Auto from company —"] + list(df.columns), key="map_domain")
-                            if domain_col == "— Auto from company —":
+                            domain_col = st.selectbox("Map column to **Domain** (optional)", options=["— From email (@ part) —"] + list(df.columns), key="map_domain")
+                            if domain_col == "— From email (@ part) —":
                                 domain_col = None
                         if not linkedin_col:
                             linkedin_col = st.selectbox("Map column to **LinkedIn** (optional)", options=["— Skip —"] + list(df.columns), key="map_linkedin")
@@ -1557,7 +1571,7 @@ elif page == "⚡ Actions":
                         with st.expander("Preview first 5 rows"):
                             st.dataframe(df.head(5), width='stretch', hide_index=True)
                         
-                        if name_col and email_col and company_col and st.button("📥 Import Leads", type="primary", key="import_leads_btn"):
+                        if email_col and st.button("📥 Import Leads", type="primary", key="import_leads_btn"):
                             from utils.writer import write_to_csv_and_db, write_to_database
                             from datetime import datetime, timezone
                             
@@ -1568,24 +1582,33 @@ elif page == "⚡ Actions":
                             status = st.empty()
                             
                             for idx, row in df.iterrows():
-                                name = str(row.get(name_col, "")).strip()
                                 email = str(row.get(email_col, "")).strip()
-                                company = str(row.get(company_col, "")).strip()
+                                if not email or "@" not in email:
+                                    skipped += 1
+                                    continue
+                                name = str(row.get(name_col, "")).strip() if name_col else ""
+                                company = str(row.get(company_col, "")).strip() if company_col else ""
                                 domain = str(row.get(domain_col, "")).strip() if domain_col else ""
                                 linkedin_url = str(row.get(linkedin_col, "")).strip() if linkedin_col else ""
                                 role = str(row.get(role_col, "")).strip() if role_col else ""
                                 
-                                if not email or not name or not company:
-                                    skipped += 1
-                                    continue
+                                # If name/company/domain missing, derive from email
                                 if not domain:
+                                    domain, _dname, _dcompany = _derive_from_email(email)
+                                if not name:
+                                    _, name, _ = _derive_from_email(email)
+                                if not company:
+                                    company = ""  # leave empty when email-only
+                                if not domain and company:
                                     domain = company.lower().replace(" ", "").replace(".", "").replace(",", "")[:50] + ".com"
+                                if not domain:
+                                    domain = email.split("@")[-1].strip() if "@" in email else ""
                                 
                                 data = {
-                                    "name": name,
+                                    "name": name or email.split("@")[0],
                                     "email": email,
-                                    "company": company,
-                                    "domain": domain,
+                                    "company": company or "(unknown)",
+                                    "domain": domain or email.split("@")[-1] if "@" in email else "",
                                     "linkedin_url": linkedin_url,
                                     "role": role,
                                     "confidence": 0.5,
