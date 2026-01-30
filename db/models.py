@@ -239,7 +239,7 @@ class DomainThrottle(Base):
 
 
 class SmtpServer(Base):
-    """SMTP server configuration for sending emails (rotation support)"""
+    """Email server: SMTP (send) + optional IMAP/POP3 (inbox)"""
     __tablename__ = "smtp_servers"
 
     id = Column(Integer, primary_key=True, index=True)
@@ -249,11 +249,20 @@ class SmtpServer(Base):
     username = Column(String, nullable=False)
     password = Column(Text, nullable=False)  # Stored in DB; consider env/secret in production
     use_tls = Column(Boolean, default=True)
-    from_email = Column(String, nullable=False)  # Sender address
-    from_name = Column(String, default="")  # Sender display name
+    use_ssl = Column(Boolean, default=False)  # True = port 465 SMTP_SSL; False = 587 STARTTLS
+    from_email = Column(String, nullable=False)
+    from_name = Column(String, default="")
     is_active = Column(Boolean, default=True)
-    priority = Column(Integer, default=0)  # Higher = preferred when rotating
-    emails_sent = Column(Integer, default=0)  # For least_used rotation
+    priority = Column(Integer, default=0)
+    emails_sent = Column(Integer, default=0)
     last_used_at = Column(DateTime, nullable=True)
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    # IMAP (inbox / read mail)
+    imap_host = Column(String, nullable=True)  # e.g. imap.example.com; if None, inbox disabled
+    imap_port = Column(Integer, default=993)
+    imap_use_ssl = Column(Boolean, default=True)
+    # POP3 (optional alternative to IMAP)
+    pop3_host = Column(String, nullable=True)
+    pop3_port = Column(Integer, default=995)
+    pop3_use_ssl = Column(Boolean, default=True)

@@ -122,6 +122,7 @@ with st.sidebar:
             "🛡️ Deliverability",
             "⚡ Actions",
             "📧 SMTP Servers",
+            "📬 Inbox",
             "⚙️ Settings"
         ],
         label_visibility="collapsed"
@@ -1741,11 +1742,14 @@ elif page == "📧 SMTP Servers":
                 st.info("No SMTP servers yet. Add one in the **Add Server** tab.")
             else:
                 for s in servers:
-                    with st.expander(f"{'✅' if s.is_active else '⏸️'} {s.name} — {s.host}:{s.port}", expanded=False):
+                    conn_type = "SSL (465)" if getattr(s, "use_ssl", None) or (s.port == 465) else "STARTTLS (587)"
+                    with st.expander(f"{'✅' if s.is_active else '⏸️'} {s.name} — {s.host}:{s.port} [{conn_type}]", expanded=False):
                         col1, col2 = st.columns(2)
                         with col1:
                             st.text(f"From: {s.from_name or s.from_email} <{s.from_email}>")
                             st.text(f"TLS: {s.use_tls}  •  Priority: {s.priority}  •  Emails sent: {s.emails_sent or 0}")
+                            imap_h = getattr(s, "imap_host", None)
+                            st.caption(f"Inbox (IMAP): {imap_h or '— Not set'}")
                             if s.last_used_at:
                                 st.caption(f"Last used: {s.last_used_at}")
                         with col2:
@@ -1765,17 +1769,24 @@ elif page == "📧 SMTP Servers":
                                 st.rerun()
         
         with tab_add:
-            st.subheader("Add SMTP Server")
+            st.subheader("Add Email Server (SMTP + optional IMAP)")
             name = st.text_input("Name", placeholder="e.g. Primary SMTP", key="smtp_name")
-            host = st.text_input("Host", placeholder="smtp.example.com", key="smtp_host")
-            port = st.number_input("Port", min_value=1, max_value=65535, value=587, key="smtp_port")
-            use_tls = st.checkbox("Use TLS", value=True, key="smtp_tls")
+            host = st.text_input("SMTP Host", placeholder="smtp.example.com", key="smtp_host")
+            port = st.number_input("SMTP Port", min_value=1, max_value=65535, value=587, key="smtp_port", help="587 = STARTTLS, 465 = SSL")
+            use_tls = st.checkbox("Use STARTTLS (port 587)", value=True, key="smtp_tls")
+            use_ssl = st.checkbox("Use SSL (port 465) — check if your host uses 465", value=False, key="smtp_use_ssl")
             username = st.text_input("Username", key="smtp_username")
             password = st.text_input("Password", type="password", key="smtp_password", help="Stored in database.")
             from_email = st.text_input("From email", placeholder="noreply@example.com", key="smtp_from_email")
             from_name = st.text_input("From name (optional)", placeholder="Your Company", key="smtp_from_name")
             is_active = st.checkbox("Active", value=True, key="smtp_active")
             priority = st.number_input("Priority (higher = preferred when rotating)", value=0, key="smtp_priority")
+            st.markdown("---")
+            st.subheader("Inbox (IMAP) — optional")
+            st.caption("Configure IMAP to view sent/received emails in the Inbox section.")
+            imap_host = st.text_input("IMAP Host", placeholder="imap.example.com or leave blank to use SMTP host", key="imap_host")
+            imap_port = st.number_input("IMAP Port", value=993, min_value=1, max_value=65535, key="imap_port")
+            imap_use_ssl = st.checkbox("IMAP Use SSL", value=True, key="imap_use_ssl")
             if st.button("Add SMTP Server", type="primary"):
                 if not all([name, host, username, password, from_email]):
                     st.error("Fill in name, host, username, password, and from email.")
@@ -1787,15 +1798,95 @@ elif page == "📧 SMTP Servers":
                         username=username.strip(),
                         password=password,
                         use_tls=use_tls,
+                        use_ssl=use_ssl,
                         from_email=from_email.strip(),
                         from_name=(from_name or "").strip(),
                         is_active=is_active,
                         priority=int(priority),
+                        imap_host=imap_host.strip() or None,
+                        imap_port=int(imap_port),
+                        imap_use_ssl=imap_use_ssl,
                     )
                     db.add(server)
                     db.commit()
                     st.success(f"Added {name}.")
                     st.rerun()
+    except Exception as e:
+        st.error(str(e))
+        import traceback
+        st.code(traceback.format_exc())
+    finally:
+        db.close()
+
+
+# ============================================================================
+# INBOX PAGE
+# ============================================================================
+elif page == "📬 Inbox":
+    st.title("📬 Inbox")
+    st.caption("Select an email server to view sent and received emails. Configure IMAP on the SMTP Servers page for each account.")
+    
+    db = get_db_session()
+    if db is None:
+        st.stop()
+    
+    try:
+        from db.models import SmtpServer
+        from agents.imap_inbox import fetch_received, fetch_sent
+        
+        servers = db.query(SmtpServer).order_by(SmtpServer.priority.desc(), SmtpServer.id).all()
+        if not servers:
+            st.info("No email servers yet. Add one in **SMTP Servers** and optionally set IMAP host for inbox.")
+            st.stop()
+        
+        server_names = {f"{s.name} ({s.from_email})": s for s in servers}
+        selected_label = st.selectbox("Select server", list(server_names.keys()), key="inbox_server")
+        server = server_names.get(selected_label)
+        if not server:
+            st.stop()
+        
+        tab_inbox, tab_sent = st.tabs(["📥 Received (INBOX)", "📤 Sent"])
+        limit = st.sidebar.number_input("Max emails to load", value=50, min_value=10, max_value=500, key="inbox_limit")
+        
+        with tab_inbox:
+            if st.button("🔄 Refresh Inbox", key="refresh_inbox"):
+                st.rerun()
+            try:
+                received = fetch_received(server, limit=limit)
+                if not received:
+                    st.info("No emails in INBOX or IMAP not configured. Set IMAP host in SMTP Servers for this account.")
+                else:
+                    for r in received:
+                        with st.expander(f"{r.get('date_str', '')[:24]} — {r.get('from_', '')[:40]} — {r.get('subject', '')[:50]}"):
+                            st.text(f"From: {r.get('from_', '')}")
+                            st.text(f"To: {r.get('to_', '')}")
+                            st.text(f"Subject: {r.get('subject', '')}")
+                            st.text(f"Date: {r.get('date_str', '')}")
+                            if r.get("snippet"):
+                                st.text(r["snippet"])
+            except Exception as e:
+                st.error(f"Failed to load inbox: {e}")
+                st.caption("Ensure IMAP host is set for this server (e.g. imap.example.com) and credentials are correct.")
+        
+        with tab_sent:
+            if st.button("🔄 Refresh Sent", key="refresh_sent"):
+                st.rerun()
+            try:
+                sent = fetch_sent(server, limit=limit)
+                if not sent:
+                    st.info("No sent emails found or IMAP not configured.")
+                else:
+                    for r in sent:
+                        with st.expander(f"{r.get('date_str', '')[:24]} — To: {r.get('to_', '')[:40]} — {r.get('subject', '')[:50]}"):
+                            st.text(f"From: {r.get('from_', '')}")
+                            st.text(f"To: {r.get('to_', '')}")
+                            st.text(f"Subject: {r.get('subject', '')}")
+                            st.text(f"Date: {r.get('date_str', '')}")
+                            if r.get("snippet"):
+                                st.text(r["snippet"])
+            except Exception as e:
+                st.error(f"Failed to load sent: {e}")
+                st.caption("Ensure IMAP host is set and your provider has a Sent folder (e.g. Sent, Sent Items).")
     except Exception as e:
         st.error(str(e))
         import traceback

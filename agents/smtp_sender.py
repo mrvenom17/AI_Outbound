@@ -56,6 +56,11 @@ def get_next_smtp_server(db=None, strategy: str = "round_robin"):
     return min(servers, key=lambda s: (s.last_used_at or datetime.min).isoformat())
 
 
+# Connection timeout (seconds); increase for slow/hosted SMTP
+SMTP_TIMEOUT = 60
+SMTP_MAX_RETRIES = 2
+
+
 def send_email_smtp(
     server: SmtpServer,
     to: str,
@@ -63,9 +68,11 @@ def send_email_smtp(
     body: str,
     db=None,
     update_usage: bool = True,
+    timeout: int = SMTP_TIMEOUT,
 ) -> Optional[str]:
     """
     Send one email via the given SMTP server.
+    Supports port 465 (SMTP_SSL) and 587 (STARTTLS).
     Returns a message_id-like string on success (for logging), None on failure.
     If update_usage is True, increments emails_sent and last_used_at on server.
     """
@@ -74,17 +81,32 @@ def send_email_smtp(
     msg["From"] = f"{server.from_name} <{server.from_email}>" if server.from_name else server.from_email
     msg["To"] = to
 
-    try:
-        if server.use_tls:
-            smtp = smtplib.SMTP(server.host, server.port, timeout=30)
-            smtp.starttls()
-        else:
-            smtp = smtplib.SMTP(server.host, server.port, timeout=30)
-        smtp.login(server.username, server.password)
-        smtp.sendmail(server.from_email, [to], msg.as_string())
-        smtp.quit()
-    except Exception as e:
-        print(f"❌ SMTP send failed ({server.name}): {e}")
+    port = server.port or 587
+    use_ssl = getattr(server, "use_ssl", None) or (port == 465)
+    last_error = None
+    for attempt in range(SMTP_MAX_RETRIES):
+        try:
+            if use_ssl or port == 465:
+                smtp = smtplib.SMTP_SSL(server.host, port, timeout=timeout)
+            else:
+                smtp = smtplib.SMTP(server.host, port, timeout=timeout)
+                if getattr(server, "use_tls", True):
+                    smtp.starttls()
+            smtp.login(server.username, server.password)
+            smtp.sendmail(server.from_email, [to], msg.as_string())
+            smtp.quit()
+            last_error = None
+            break
+        except Exception as e:
+            last_error = e
+            if attempt < SMTP_MAX_RETRIES - 1:
+                import time
+                time.sleep(2)
+                continue
+            print(f"❌ SMTP send failed ({server.host}): {last_error}")
+            return None
+
+    if last_error is not None:
         return None
 
     # Update usage in DB
